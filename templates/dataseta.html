@@ -1,178 +1,171 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Covid-19 Dashboard</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+	<title>Covid-19 Dashboard</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 </head>
 <body>
 
-<h1  id="header">CS127: Covid-19 Dashboard</h1>
+	<h1  id="header">CS127: Covid-19 Dashboard</h1>
 
-<h3>Dataset A </h3>
+	<h3>Dataset A </h3>
 
-<div id="graph_A">
-  <canvas id="line-chart" width="200" height="80"></canvas><br>
-  <canvas id="death-chart" width="300" height="100"></canvas><br>
-  <canvas id="recover-chart" width="300" height="100"></canvas><br>
-  <canvas id="confirm-chart" width="300" height="100"></canvas><br>
-</div>
+	<div id="graph_A">
+		<canvas id="line-chart" width="200" height="80"></canvas><br>
+		<canvas id="death-chart" width="300" height="100"></canvas><br>
+		<canvas id="recover-chart" width="300" height="100"></canvas><br>
+		<canvas id="confirm-chart" width="300" height="100"></canvas><br>
+	</div>
 
-<h3>{% block heading %} {% endblock %}</h3>
+	<h3>{% block heading %} {% endblock %}</h3>
 
-{% block body %}
-{% endblock %}
+	{% block body %}
+	{% endblock %}
 
 
 <!-- JAVASCRIPT -->
 <script>
 
-createChart();
+	createChart();
 
-function createChart(){
-  const data = getData();
+	async function createChart(){
+		const data = await getData();
 
-   
-  // Line chart
-  // shows a line graph of deaths, recoveries, and confirmed cases in the Philippines
-  new Chart(document.getElementById("line-chart"), {
-    type: 'line',
-    data: 
-    {
-      labels: data.date,
-      datasets: [{ 
-          data: data.confirmed_ph,
-          label: "confirmed cases",
-          borderColor: "#c45850",
-          fill: false
-        }, { 
-          data: data.recovered_ph,
-          label: "recoveries",
-          borderColor: "#3e95cd",
-          fill: false
-        }, { 
-          data: data.died_ph,
-          label: "deaths",
-          borderColor: "black",
-          fill: false
-        }]
-    },
-    options: {
-      title: {
-        display: true,
-        text: 'Number of deaths, recoveries, and confirmed cases in the Philippines'
-      }
-    }
-  });
+		// Line chart
+		// shows a line graph of deaths, recoveries, and confirmed cases in the Philippines
+		new Chart(document.getElementById("line-chart"), {
+	    	type: 'line',
+	    	data: {
+		      	labels: data.date,
+		      	datasets: [{ 
+		        	data: data.confirmed_ph,
+		        	label: "confirmed cases",
+		        	borderColor: "#c45850",
+		        	fill: false
+		        }, { 
+		        	data: data.recovered_ph,
+			        label: "recoveries",
+			        borderColor: "#3e95cd",
+			    	fill: false
+		        }, { 
+		        	data: data.died_ph,
+		        	label: "deaths",
+		        	borderColor: "black",
+		        	fill: false
+		        }]
+		    },
+		    options: {
+		    	title: {
+		        	display: true,
+		        	text: 'Number of deaths, recoveries, and confirmed cases in the Philippines'
+		      	}
+		    }
+		 });
 
 
-  // Bar charts
-  // shows a vertical bar graph of deaths in five(5) countries
-  new Chart(document.getElementById("death-chart"), {
-      type: 'bar',
-      data: {
-        labels: data.countries,
-        datasets: [
-          {
-            label: "Total cases",
-            backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-            data: data.countries_dth,
-          }
-        ]
-      },
-      options: {
-        legend: { display: false },
-        title: {
-          display: true,
-          text: 'TOTAL NUMBER OF DEATHS IN 5 COUNTRIES'
-        }
-      }
-  });
+		// Bar charts
+		// shows a vertical bar graph of deaths in five(5) countries
+		new Chart(document.getElementById("death-chart"), {
+		    type: 'bar',
+		    data: {
+		        labels: data.countries,
+		        datasets: 
+		        [{
+		            label: "Total cases",
+		            backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+		            data: data.countries_dth,
+		        }]
+		    },
+		    options: {
+		        legend: { display: false },
+		        title: {
+		          display: true,
+		          text: 'TOTAL NUMBER OF DEATHS IN 5 COUNTRIES'
+		        }
+		    }
+		});
 
-  // shows a vertical bar graph of recoveries in five(5) countries
-  new Chart(document.getElementById("recover-chart"), {
-      type: 'bar',
-      data: {
-        labels: data.countries,
-        datasets: [
-          {
-            label: "Total cases",
-            backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-            data: data.countries_rec,
-          }
-        ]
-      },
-      options: {
-        legend: { display: false },
-        title: {
-          display: true,
-          text: 'TOTAL NUMBER OF RECOVERIES IN 5 COUNTRIES'
-        }
-      }
-  });
+		// shows a vertical bar graph of recoveries in five(5) countries
+		new Chart(document.getElementById("recover-chart"), {
+		    type: 'bar',
+		    data: {
+		        labels: data.countries,
+		        datasets: 
+		        [{
+		            label: "Total cases",
+		            backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+		            data: data.countries_rec,
+		        }]
+		    },
+		    options: {
+		        legend: { display: false },
+		        title: {
+		          display: true,
+		          text: 'TOTAL NUMBER OF RECOVERIES IN 5 COUNTRIES'
+		        }
+		    }
+		});
 
-  // shows a vertical bar graph of confirmed cases in five(5) countries
-  new Chart(document.getElementById("confirm-chart"), {
-      type: 'bar',
-      data: {
-        labels: data.countries,
-        datasets: [
-          {
-            label: "Total cases",
-            backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-            data: data.countries_con,
-          }
-        ]
-      },
-      options: {
-        legend: { display: false },
-        title: {
-          display: true,
-          text: 'TOTAL NUMBER OF CONFIRMED CASES IN 5 COUNTRIES'
-        }
-      }
-  });
+		// shows a vertical bar graph of confirmed cases in five(5) countries
+		new Chart(document.getElementById("confirm-chart"), {
+		    type: 'bar',
+		    data: {
+		        labels: data.countries,
+		        datasets: 
+		        [{
+		            label: "Total cases",
+		            backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+		            data: data.countries_con,
+		        }]
+		    },
+		    options: {
+		        legend: { display: false },
+		        title: {
+		          display: true,
+		          text: 'TOTAL NUMBER OF CONFIRMED CASES IN 5 COUNTRIES'
+		        }
+		    }
+		});
 
-}
+	}
 
-// gets data from json and returns lists
-function getData(){
-  const date = [];
-  const confirmed_ph = [];
-  const recovered_ph = [];
-  const died_ph = [];
+	// gets data from json and returns lists
+	async function getData(){
+		const date = [];
+		const confirmed_ph = [];
+		const recovered_ph = [];
+		const died_ph = [];
 
-  const countries_con = [];
-  const countries_rec = [];
-  const countries_dth = [];
-  const countries = ["China", "Philippines", "Russia", "Afghanistan", "Spain"];
+		const countries_con = [];
+		const countries_rec = [];
+		const countries_dth = [];
+		const countries = ["China", "Philippines", "Russia", "Afghanistan", "Spain"];
 
-  fetch('https://pomber.github.io/covid19/timeseries.json')
-  .then(response => response.json())
-  .then(data => {
+		const api_url = 'https://pomber.github.io/covid19/timeseries.json';
+		const response = await fetch (api_url);
+		const data = await response.json();
 
-    // data of philippines
-    const ph_data = data["Philippines"];
-    for(i=0; i<ph_data.length; i++){
-      if (ph_data[i].confirmed > 99){
-        date.push(ph_data[i].date);
-        confirmed_ph.push(ph_data[i].confirmed);
-        recovered_ph.push(ph_data[i].recovered);
-        died_ph.push(ph_data[i].deaths);
-      }
-    }
+		// data of philippines
+		const ph_data = data["Philippines"];
+		for(i=0; i<ph_data.length; i++){
+		  if (ph_data[i].confirmed > 99){
+		    date.push(ph_data[i].date);
+		    confirmed_ph.push(ph_data[i].confirmed);
+		    recovered_ph.push(ph_data[i].recovered);
+		    died_ph.push(ph_data[i].deaths);
+		  }
+		}
 
-    //data of 5 countries
-    for(i=0; i<countries.length; i++){
-      const country = data[countries[i]];
-      countries_con.push(country[country.length-1].confirmed);
-      countries_rec.push(country[country.length-1].recovered);
-      countries_dth.push(country[country.length-1].deaths);
-    }
+		//data of 5 countries
+		for(i=0; i<countries.length; i++){
+		  const country = data[countries[i]];
+		  countries_con.push(country[country.length-1].confirmed);
+		  countries_rec.push(country[country.length-1].recovered);
+		  countries_dth.push(country[country.length-1].deaths);
+		}
 
-  })
-
-  return {date, confirmed_ph, recovered_ph, died_ph, countries, countries_con, countries_rec, countries_dth };
-}
+		return {date, confirmed_ph, recovered_ph, died_ph, countries, countries_con, countries_rec, countries_dth };
+	}
 
 </script>
 
