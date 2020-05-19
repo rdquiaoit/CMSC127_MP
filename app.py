@@ -6,7 +6,13 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-	return render_template('dataseta.html')
+	response = requests.get('https://pomber.github.io/covid19/timeseries.json')
+	
+	#returns an exception if something is wrong
+	if response.status_code != 200:
+		raise Exception(f"Unexpected status code {response.status_code}")
+		
+	return render_template('datasetb.html')
 
 @app.route('/data')
 def data():
