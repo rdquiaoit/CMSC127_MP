@@ -17,19 +17,23 @@
   <canvas id="confirm-chart" width="300" height="100"></canvas><br>
 </div>
 
+<h3>{% block heading %} {% endblock %}</h3>
 
+{% block body %}
+{% endblock %}
 
 
 <!-- JAVASCRIPT -->
-<script type="text/javascript">
+<script>
 
 createChart();
 
-async function createChart(){
-  const data = await getISS();
-  const countries = ["China", "Philippines", "Russia", "Afghanistan", "Spain"];
+function createChart(){
+  const data = getData();
 
-  //Line chart
+   
+  // Line chart
+  // shows a line graph of deaths, recoveries, and confirmed cases in the Philippines
   new Chart(document.getElementById("line-chart"), {
     type: 'line',
     data: 
@@ -61,132 +65,116 @@ async function createChart(){
   });
 
 
-
-// Bar charts
-new Chart(document.getElementById("death-chart"), {
-    type: 'bar',
-    data: {
-      labels: countries,
-      datasets: [
-        {
-          label: "Total cases",
-          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-          data: data.countries_dth,
+  // Bar charts
+  // shows a vertical bar graph of deaths in five(5) countries
+  new Chart(document.getElementById("death-chart"), {
+      type: 'bar',
+      data: {
+        labels: data.countries,
+        datasets: [
+          {
+            label: "Total cases",
+            backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+            data: data.countries_dth,
+          }
+        ]
+      },
+      options: {
+        legend: { display: false },
+        title: {
+          display: true,
+          text: 'TOTAL NUMBER OF DEATHS IN 5 COUNTRIES'
         }
-      ]
-    },
-    options: {
-      legend: { display: false },
-      title: {
-        display: true,
-        text: 'TOTAL NUMBER OF DEATHS IN 5 COUNTRIES'
       }
-    }
-});
+  });
 
-new Chart(document.getElementById("recover-chart"), {
-    type: 'bar',
-    data: {
-      labels: countries,
-      datasets: [
-        {
-          label: "Total cases",
-          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-          data: data.countries_rec,
+  // shows a vertical bar graph of recoveries in five(5) countries
+  new Chart(document.getElementById("recover-chart"), {
+      type: 'bar',
+      data: {
+        labels: data.countries,
+        datasets: [
+          {
+            label: "Total cases",
+            backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+            data: data.countries_rec,
+          }
+        ]
+      },
+      options: {
+        legend: { display: false },
+        title: {
+          display: true,
+          text: 'TOTAL NUMBER OF RECOVERIES IN 5 COUNTRIES'
         }
-      ]
-    },
-    options: {
-      legend: { display: false },
-      title: {
-        display: true,
-        text: 'TOTAL NUMBER OF RECOVERIES IN 5 COUNTRIES'
       }
-    }
-});
+  });
 
-new Chart(document.getElementById("confirm-chart"), {
-    type: 'bar',
-    data: {
-      labels: countries,
-      datasets: [
-        {
-          label: "Total cases",
-          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-          data: data.countries_con,
+  // shows a vertical bar graph of confirmed cases in five(5) countries
+  new Chart(document.getElementById("confirm-chart"), {
+      type: 'bar',
+      data: {
+        labels: data.countries,
+        datasets: [
+          {
+            label: "Total cases",
+            backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+            data: data.countries_con,
+          }
+        ]
+      },
+      options: {
+        legend: { display: false },
+        title: {
+          display: true,
+          text: 'TOTAL NUMBER OF CONFIRMED CASES IN 5 COUNTRIES'
         }
-      ]
-    },
-    options: {
-      legend: { display: false },
-      title: {
-        display: true,
-        text: 'TOTAL NUMBER OF CONFIRMED CASES IN 5 COUNTRIES'
       }
-    }
-});
-
-
+  });
 
 }
 
-
-async function getISS(){
-  const api_url = 'https://pomber.github.io/covid19/timeseries.json';
-  const countries_con = [];
-  const countries_rec = [];
-  const countries_dth= [];
-
+// gets data from json and returns lists
+function getData(){
   const date = [];
   const confirmed_ph = [];
   const recovered_ph = [];
   const died_ph = [];
 
+  const countries_con = [];
+  const countries_rec = [];
+  const countries_dth = [];
+  const countries = ["China", "Philippines", "Russia", "Afghanistan", "Spain"];
 
-  const response = await fetch (api_url);
-  const data = await response.json();
-  const { China, Philippines, Russia, Afghanistan, Spain } = data;
+  fetch('https://pomber.github.io/covid19/timeseries.json')
+  .then(response => response.json())
+  .then(data => {
 
-
-  for(i=0; i<Philippines.length; i++){
-    if (Philippines[i].confirmed > 99){
-      date.push(data.Philippines[i].date);
-      confirmed_ph.push(data.Philippines[i].confirmed);
-      recovered_ph.push(data.Philippines[i].recovered);
-      died_ph.push(data.Philippines[i].deaths);
+    // data of philippines
+    const ph_data = data["Philippines"];
+    for(i=0; i<ph_data.length; i++){
+      if (ph_data[i].confirmed > 99){
+        date.push(ph_data[i].date);
+        confirmed_ph.push(ph_data[i].confirmed);
+        recovered_ph.push(ph_data[i].recovered);
+        died_ph.push(ph_data[i].deaths);
+      }
     }
-  }
 
-  const total = China.length-1;
-  countries_con.push(China[total].confirmed);
-  countries_con.push(Philippines[total].confirmed);
-  countries_con.push(Russia[total].confirmed);
-  countries_con.push(Afghanistan[total].confirmed);
-  countries_con.push(Spain[total].confirmed);
-  
-  countries_rec.push(China[total].recovered);
-  countries_rec.push(Philippines[total].recovered);
-  countries_rec.push(Russia[total].recovered);
-  countries_rec.push(Afghanistan[total].recovered);
-  countries_rec.push(Spain[total].recovered);
+    //data of 5 countries
+    for(i=0; i<countries.length; i++){
+      const country = data[countries[i]];
+      countries_con.push(country[country.length-1].confirmed);
+      countries_rec.push(country[country.length-1].recovered);
+      countries_dth.push(country[country.length-1].deaths);
+    }
 
-  countries_dth.push(China[total].deaths);
-  countries_dth.push(Philippines[total].deaths);
-  countries_dth.push(Russia[total].deaths);
-  countries_dth.push(Afghanistan[total].deaths);
-  countries_dth.push(Spain[total].deaths);
+  })
 
-
-  return { date, confirmed_ph, recovered_ph, died_ph, countries_con, countries_rec, countries_dth };
-
-
-
-
+  return {date, confirmed_ph, recovered_ph, died_ph, countries, countries_con, countries_rec, countries_dth };
 }
 
-
-
-
 </script>
+
 </body>
 </html>
