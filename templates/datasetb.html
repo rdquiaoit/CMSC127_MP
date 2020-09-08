@@ -1,13 +1,127 @@
 {% extends "dataseta.html" %}
 
 {% block heading %}
-
-	Dataset B
-
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 {% endblock %}
 
 {% block body %}
 
-*insert graph
+	<div id="graph_B">
+		<h3 align="left">Dataset B</h3> 
+		<div id="grid-container-b">
+			<div id="grid-item-b-1">
+				<canvas id="age-chart" width="300" height="100"></canvas><br><br>
+			</div>
+			<div id="grid-item-b-2">
+				<canvas id="sex-chart" width="10" height="10"></canvas><br><br>
+			</div>
+			<div id="grid-item-b-3">
+				<canvas id="muni-chart" width="3" height="15"></canvas><br><br>
+			</div>
+			<div id="grid-item-b-4">
+				<canvas id="region-chart" width="20" height="20"></canvas><br><br>
+			</div>
+		</div>
+	</div>
+
+{% block javascript %}
+<script>
+	ageLabel = JSON.parse({{ ageLabel | tojson }})
+	ageData = JSON.parse({{ ageData | tojson }})
+	let ageChartInfo = document.getElementById('age-chart').getContext('2d');
+	let ageChart = new Chart (ageChartInfo, {
+		type: 'bar',
+		data: {
+			labels: ageLabel,
+			datasets: [{
+				label: 'Number of Patients',
+				data: ageData,
+				backgroundColor: 'rgba(253, 125, 0, 0.3)'
+			}]
+		},
+		options: {
+			legend: { display: false },
+			title: {
+		        display: true,
+		        text: 'Age Group of Patients'
+			}
+		}
+	});
+
+	sexLabel = JSON.parse({{ sexLabel | tojson }})
+	sexData = JSON.parse({{ sexData | tojson }})
+	let sexChartInfo = document.getElementById('sex-chart').getContext('2d');
+	let sexChart = new Chart (sexChartInfo, {
+		type: 'pie',
+		data: {
+			labels: sexLabel,
+			datasets: [{
+				label: 'Sex of Patients',
+				data: sexData,
+				backgroundColor: [
+				"#fb991c",
+				"#0061bf",
+				"#7b7c7e"
+				]
+			}] 
+		},
+		options: {
+			legend: {
+				position: 'right'
+			},
+			title: {
+		        display: true,
+		        text: 'Sex of Patients'
+			}
+		}
+	});
+
+	muniLabel = JSON.parse({{ muniCityResLabel | tojson }})
+	muniData = JSON.parse({{ muniCityResData | tojson }})
+	let muniChartInfo = document.getElementById('muni-chart').getContext('2d');
+	let muniChart = new Chart (muniChartInfo, {
+		type: 'horizontalBar',
+		data: {
+			labels: muniLabel,
+			datasets: [{
+				label: 'Number of Patients',
+				data: muniData,
+				backgroundColor: "#2ab572"
+			}]
+		},
+		options: {
+			legend: { display: false },
+			title: {
+		        display: true,
+		        text: 'Patients Per City/Municipality'
+			}
+		}
+	});
+
+	regLabel = JSON.parse({{ regProvResLabel | tojson }})
+	regData = JSON.parse({{ regProvResData | tojson }})
+	let regChartInfo = document.getElementById('region-chart').getContext('2d');
+	let regChart = new Chart (regChartInfo, {
+		type: 'horizontalBar',
+		data: {
+			labels: regLabel,
+			datasets: [{
+				label: 'Number of Patients',
+				data: regData,
+				backgroundColor: "#fee259"
+			}]
+		},
+		options: {
+			legend: { display: false },
+			title: {
+		        display: true,
+		        text: 'Patients Per Region/Province'
+			}
+		}
+	});
+
+
+</script>
+{% endblock %}
 
 {% endblock %}

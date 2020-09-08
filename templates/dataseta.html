@@ -1,26 +1,42 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Covid-19 Dashboard</title>
+	<title>COVID-19 Dashboard</title>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+	<!--//href="../css/style.css" -->
 </head>
 <body>
 
-	<h1  id="header">CS127: Covid-19 Dashboard</h1>
-
-	<h3>Dataset A </h3>
-
+	<h1 id="header">COVID-19 Dashboard</h1>
+	<hr>
 	<div id="graph_A">
-		<canvas id="line-chart" width="200" height="80"></canvas><br>
-		<canvas id="death-chart" width="300" height="100"></canvas><br>
-		<canvas id="recover-chart" width="300" height="100"></canvas><br>
-		<canvas id="confirm-chart" width="300" height="100"></canvas><br>
+		<h3 align="left">Dataset A </h3>
+		<div id="grid-container-a">
+			<div id="grid-item-1">
+				<canvas id="line-chart" width="150" height="40"></canvas><br>
+			</div>
+			<div id="grid-item-2">
+				<canvas id="death-chart" width="200" height="200"></canvas><br>
+			</div>
+			<div id="grid-item-3">
+				<canvas id="recover-chart" width="200" height="200"></canvas><br>
+			</div>
+			<div id="grid-item-4">
+				<canvas id="confirm-chart" width="200" height="200"></canvas><br>
+			</div>
+		</div>
 	</div>
+	
+	
+	
 
-	<h3>{% block heading %} {% endblock %}</h3>
-
+	{% block heading %} {% endblock %}
+	
 	{% block body %}
 	{% endblock %}
+	
 
 
 <!-- JAVASCRIPT -->
@@ -40,25 +56,26 @@
 		      	datasets: [{ 
 		        	data: data.confirmed_ph,
 		        	label: "confirmed cases",
-		        	borderColor: "#c45850",
+		        	borderColor: "#fd7d00",
 		        	fill: false
 		        }, { 
 		        	data: data.recovered_ph,
 			        label: "recoveries",
-			        borderColor: "#3e95cd",
+			        borderColor: "#013183",
 			    	fill: false
 		        }, { 
 		        	data: data.died_ph,
 		        	label: "deaths",
-		        	borderColor: "black",
+		        	borderColor: "#e7b901",
 		        	fill: false
 		        }]
 		    },
 		    options: {
-		    	title: {
-		        	display: true,
-		        	text: 'Number of deaths, recoveries, and confirmed cases in the Philippines'
-		      	}
+			    title: {
+			        display: true,
+			        text: 'Number of deaths, recoveries, and confirmed cases in the Philippines',
+			        fontSize: 20
+			    }		    	
 		    }
 		 });
 
@@ -72,16 +89,16 @@
 		        datasets: 
 		        [{
 		            label: "Total cases",
-		            backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+		            backgroundColor: "#e7b901",
 		            data: data.countries_dth,
 		        }]
 		    },
 		    options: {
 		        legend: { display: false },
 		        title: {
-		          display: true,
-		          text: 'TOTAL NUMBER OF DEATHS IN 5 COUNTRIES'
-		        }
+			        display: true,
+			        text: 'Total Number of Deaths in 5 Countries'
+			    }
 		    }
 		});
 
@@ -93,16 +110,16 @@
 		        datasets: 
 		        [{
 		            label: "Total cases",
-		            backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+		            backgroundColor: "#013183",
 		            data: data.countries_rec,
 		        }]
 		    },
 		    options: {
 		        legend: { display: false },
 		        title: {
-		          display: true,
-		          text: 'TOTAL NUMBER OF RECOVERIES IN 5 COUNTRIES'
-		        }
+			        display: true,
+			        text: 'Total Number of Recoveries in 5 Countries'
+			    }
 		    }
 		});
 
@@ -114,16 +131,16 @@
 		        datasets: 
 		        [{
 		            label: "Total cases",
-		            backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+		            backgroundColor: "#fd7d00",
 		            data: data.countries_con,
 		        }]
 		    },
 		    options: {
 		        legend: { display: false },
 		        title: {
-		          display: true,
-		          text: 'TOTAL NUMBER OF CONFIRMED CASES IN 5 COUNTRIES'
-		        }
+			        display: true,
+			        text: 'Total Number of Confirmed Cases in 5 Countries'
+			    }
 		    }
 		});
 
