@@ -2,27 +2,60 @@
 
 {% block heading %}
 	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
 {% endblock %}
 
 {% block body %}
+	
+<div id="accordion2">
+	<div class="card">
+		<div class="card-header">
+    		<a class="card-link" data-toggle="collapse" href="#collapseTwo">
+      			<h4 class="ds-heading">Dataset B</h4>
+    		</a>
+  		</div>
+  		<div id="collapseTwo" class="collapse show" data-parent="#accordion2">
+    		<div class="card-body">
+    			<div class="container-fluid ds-b">
+    				<div class="row row-3rd">
+						<div class="columns col-sm-12 col-md-8">
+							<div class="inner col-age">
+								<h5>Age Group of Patients</h5>
+								<canvas id="age-chart" width="90" height="50"></canvas>
+							</div>
+						</div>
+						<div class="columns col-sm-12 col-md-4">
+							<div class="inner col-sex">
+								<h5>Sex of Patients</h5>
+								<canvas id="sex-chart" width="30" height="38"></canvas>
+							</div>
+						</div>
+					</div>
 
-	<div id="graph_B">
-		<h3 align="left">Dataset B</h3> 
-		<div id="grid-container-b">
-			<div id="grid-item-b-1">
-				<canvas id="age-chart" width="300" height="100"></canvas><br><br>
-			</div>
-			<div id="grid-item-b-2">
-				<canvas id="sex-chart" width="10" height="10"></canvas><br><br>
-			</div>
-			<div id="grid-item-b-3">
-				<canvas id="muni-chart" width="3" height="15"></canvas><br><br>
-			</div>
-			<div id="grid-item-b-4">
-				<canvas id="region-chart" width="20" height="20"></canvas><br><br>
-			</div>
+					<div class="row row-4th">
+						<div class="columns col-sm-12 col-md-6">
+							<div class="inner">
+								<h5>Patients Per City/Municipality</h5><hr>	
+								<div id="scroll-1">
+									<canvas id="muni-chart" width="2" height="50"></canvas>
+								</div>
+							</div>
+						</div>
+						<div class="columns col-sm-12 col-md-6">
+							<div class="inner">
+								<h5>Patients Per Region/Province</h5><hr>	
+								<div id="scroll-2">
+									<canvas id="region-chart" width="2" height="9"></canvas>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+    		</div>
 		</div>
-	</div>
+	</div> <!-- end of card -->
+</div> <!-- end of acoordion2 -->
+
 
 {% block javascript %}
 <script>
@@ -36,14 +69,19 @@
 			datasets: [{
 				label: 'Number of Patients',
 				data: ageData,
-				backgroundColor: 'rgba(253, 125, 0, 0.3)'
+				backgroundColor: 'rgba(253, 125, 0, 0.3)',
+				borderColor: 'rgba(253, 125, 0, 1)',
+				borderWidth: 2
 			}]
 		},
 		options: {
 			legend: { display: false },
-			title: {
-		        display: true,
-		        text: 'Age Group of Patients'
+			scales: {
+			    xAxes: [{
+			    	gridLines: {
+			        	display: false
+			      	}
+			    }]
 			}
 		}
 	});
@@ -58,20 +96,15 @@
 			datasets: [{
 				label: 'Sex of Patients',
 				data: sexData,
-				backgroundColor: [
-				"#fb991c",
-				"#0061bf",
-				"#7b7c7e"
-				]
+				backgroundColor: ["#fb991c", "#0061bf", "#7b7c7e"]
 			}] 
 		},
 		options: {
 			legend: {
-				position: 'right'
-			},
-			title: {
-		        display: true,
-		        text: 'Sex of Patients'
+				position : 'bottom',
+				labels : {
+					usePointStyle : true,
+				}
 			}
 		}
 	});
@@ -86,15 +119,14 @@
 			datasets: [{
 				label: 'Number of Patients',
 				data: muniData,
-				backgroundColor: "#2ab572"
+				backgroundColor: "#2f90a7"
 			}]
 		},
 		options: {
 			legend: { display: false },
-			title: {
-		        display: true,
-		        text: 'Patients Per City/Municipality'
-			}
+			xAxes: [{
+			    stacked: true
+			}]
 		}
 	});
 
@@ -108,15 +140,14 @@
 			datasets: [{
 				label: 'Number of Patients',
 				data: regData,
-				backgroundColor: "#fee259"
+				backgroundColor: "#e4704a"
 			}]
 		},
 		options: {
 			legend: { display: false },
-			title: {
-		        display: true,
-		        text: 'Patients Per Region/Province'
-			}
+			xAxes: [{
+			    stacked: true
+			}]
 		}
 	});
 

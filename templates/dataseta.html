@@ -2,40 +2,78 @@
 <html>
 <head>
 	<title>COVID-19 Dashboard</title>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400&display=swap" rel="stylesheet">
+	<link rel="shortcut icon" href="{{ url_for('static', filename='icon.png') }}">
 	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-	<!--//href="../css/style.css" -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+	<!--	 FONTS 			-->
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Righteous&display=swap" rel="stylesheet">
+	<!-- 	 CHARTS         -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
 
-	<h1 id="header">COVID-19 Dashboard</h1>
-	<hr>
-	<div id="graph_A">
-		<h3 align="left">Dataset A </h3>
-		<div id="grid-container-a">
-			<div id="grid-item-1">
-				<canvas id="line-chart" width="150" height="40"></canvas><br>
-			</div>
-			<div id="grid-item-2">
-				<canvas id="death-chart" width="200" height="200"></canvas><br>
-			</div>
-			<div id="grid-item-3">
-				<canvas id="recover-chart" width="200" height="200"></canvas><br>
-			</div>
-			<div id="grid-item-4">
-				<canvas id="confirm-chart" width="200" height="200"></canvas><br>
-			</div>
-		</div>
-	</div>
-	
-	
+	<div class="wrapper">
+		<h1 class="heading">COVID-19 Dashboard</h1>
+		<div class="container">
+	  	  	<div id="accordion1">
+		    	<div class="card">
+		    		<div class="card-header">
+		        		<a class="card-link" data-toggle="collapse" href="#collapseOne">
+		          			<h4 class="ds-heading">Dataset A</h4>
+		        		</a>
+		      		</div>
+		      		<div id="collapseOne" class="collapse show" data-parent="#accordion1">
+		        		<div class="card-body">
+		        			<div class="container-fluid ds-a">
+			        			<div class="row row-1st">
+				          			<div class="columns col-sm-12 col-md-12" id="phil-chart">
+				          				<div class="inner inner-line-chart">
+					          				<h5 class="line-chart-title">Number of deaths, recoveries, and confirmed cases in the Philippines</h5>
+											<canvas id="line-chart" height="70" width="70"></canvas>
+										</div>
+									</div>
+								</div>
+								<div class="row row-2nd">
+									<div class="columns col-sm-12 col-md-4">
+										<div class="inner">
+											<canvas id="death-chart" height="14" width="20"></canvas>
+										</div>
+									</div>
+									<div class="columns col-sm-12 col-md-4">
+										<div class="inner">
+											<canvas id="recover-chart" height="14" width="20"></canvas>
+										</div>
+									</div>
+									<div class="columns col-sm-12 col-md-4">
+										<div class="inner">
+											<canvas id="confirm-chart" height="14" width="20"></canvas>
+										</div>
+									</div>
+								</div>
+							</div>
+		        		</div>
+		  			</div>
+		  		</div> <!-- end of card -->
+			</div> <!-- end of acoordion1 -->
 	
 
 	{% block heading %} {% endblock %}
 	
 	{% block body %}
 	{% endblock %}
+	
+		</div> <!--- end of container -->
+	</div> <!-- end of wrapper -->
+
+	<footer class="footer">
+      	<p>Copyright &copy; 2020 <br> CREATED BY BONGALBAL NGO PEREÑA QUIAOIT</p>
+    </footer>
+	
 	
 
 
@@ -57,25 +95,40 @@
 		        	data: data.confirmed_ph,
 		        	label: "confirmed cases",
 		        	borderColor: "#fd7d00",
+					pointBorderColor: "#fd7d00",
+					pointBackgroundColor: "#FFF",
+					pointBorderWidth: 1,
+					pointRadius: 2,
 		        	fill: false
 		        }, { 
 		        	data: data.recovered_ph,
 			        label: "recoveries",
 			        borderColor: "#013183",
+			        pointBorderColor: "#013183",
+					pointBackgroundColor: "#FFF",
+					pointBorderWidth: 1,
+					pointRadius: 2,
 			    	fill: false
 		        }, { 
 		        	data: data.died_ph,
 		        	label: "deaths",
 		        	borderColor: "#e7b901",
+		        	pointBorderColor: "#e7b901",
+					pointBackgroundColor: "#FFF",
+					pointBorderWidth: 1,
+					pointRadius: 2,
 		        	fill: false
 		        }]
 		    },
 		    options: {
-			    title: {
-			        display: true,
-			        text: 'Number of deaths, recoveries, and confirmed cases in the Philippines',
-			        fontSize: 20
-			    }		    	
+		    	maintainAspectRatio: false,
+		    	scales: {
+				    xAxes: [{
+				    	gridLines: {
+				    		display: false
+				    	}
+				    }]
+				}
 		    }
 		 });
 
@@ -89,15 +142,16 @@
 		        datasets: 
 		        [{
 		            label: "Total cases",
-		            backgroundColor: "#e7b901",
 		            data: data.countries_dth,
+		            backgroundColor: "rgba(231, 185, 1, 1)",
+		            hoverBackgroundColor: "rgba(231, 185, 1, 0.6)"
 		        }]
 		    },
 		    options: {
 		        legend: { display: false },
 		        title: {
 			        display: true,
-			        text: 'Total Number of Deaths in 5 Countries'
+			        text: 'Total Number of Deaths in 7 Countries'
 			    }
 		    }
 		});
@@ -110,15 +164,16 @@
 		        datasets: 
 		        [{
 		            label: "Total cases",
-		            backgroundColor: "#013183",
 		            data: data.countries_rec,
+		            backgroundColor: "rgba(1, 49, 131, 1)",
+		            hoverBackgroundColor: "rgba(1, 49, 131, 0.6)"
 		        }]
 		    },
 		    options: {
 		        legend: { display: false },
 		        title: {
 			        display: true,
-			        text: 'Total Number of Recoveries in 5 Countries'
+			        text: 'Total Number of Recoveries in 7 Countries'
 			    }
 		    }
 		});
@@ -131,15 +186,16 @@
 		        datasets: 
 		        [{
 		            label: "Total cases",
-		            backgroundColor: "#fd7d00",
 		            data: data.countries_con,
+		            backgroundColor: "rgba(253, 125, 0, 1)",
+		            hoverBackgroundColor: "rgba(253, 125, 0, 0.6)"
 		        }]
 		    },
 		    options: {
 		        legend: { display: false },
 		        title: {
 			        display: true,
-			        text: 'Total Number of Confirmed Cases in 5 Countries'
+			        text: 'Total Number of Confirmed Cases in 7 Countries'
 			    }
 		    }
 		});
@@ -156,7 +212,7 @@
 		const countries_con = [];
 		const countries_rec = [];
 		const countries_dth = [];
-		const countries = ["China", "Philippines", "Russia", "Afghanistan", "Spain"];
+		const countries = ["Brazil", "China", "Colombia", "India", "Mexico", "Philippines", "Spain"];
 
 		const api_url = 'https://pomber.github.io/covid19/timeseries.json';
 		const response = await fetch (api_url);
