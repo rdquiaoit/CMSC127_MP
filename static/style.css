@@ -1,0 +1,169 @@
+*{
+	margin: 0;
+	padding: 0;
+	font-family: 'Montserrat', sans-serif;
+}
+
+html{
+	height: 100vh;
+}
+
+body{
+	min-height: 100vh;
+	position: relative;
+	padding-bottom: 100px;
+}
+
+.wrapper{
+	background-color: #eaf0f6;
+	padding-bottom: 60px;
+	min-height: 100vh;
+}
+
+.container{
+	margin-top: 40px;
+	background-color: #eaf0f6;
+}
+
+.heading{
+	font-family: 'Righteous', cursive !important;
+	color: #0f3f4d;
+	line-height: 45px;
+	background-image: linear-gradient(to left, #458fa3, white);
+	padding: 26px 20px 24px; 
+	box-shadow: 2px 2px 20px #c1d0d4;
+}
+
+.ds-heading{
+	padding-top: 5px;
+	color: white;
+	font-size: 20px;
+}
+
+
+.card{
+	margin-bottom: 16px;
+	border-radius: 8px !important;
+}
+
+.card-header{
+	height: 60px;
+	background-color: #1c768f !important;
+	border-radius: 5px !important;
+}
+
+.card-link:after{
+	content: '\2212';
+	color: #1c768f;
+	font-weight: bold;
+	width: 35px;
+	font-size: 25px;
+	text-align: center;
+	border-radius: 5px;
+	right: 15px;
+	top: 11px;
+	position: absolute;
+	background-color: white;
+}
+
+.card-link.collapsed:after{
+	content: '\002B';
+}
+
+
+.column-1, .column-2, .column-3{
+	width: calc(100% - 20px);
+	margin: 10px 0;
+}	
+
+.columns{
+	margin-bottom: 10px;
+}
+
+.inner{
+	padding: 10px;
+	border-radius: 3px;
+	border-color: #dae1e8;
+	border-style: solid;
+	background-color: #f6f9fb;
+	text-align: center;
+}
+
+.inner-line-chart{
+	margin: auto;
+	position: relative; 
+	height: 56vh; 
+	width: 100%;
+}
+
+#line-chart{
+	padding-bottom: 50px;
+	position: relative; 
+}
+
+.col-age, .col-sex{
+	width: 100%;
+}
+
+.col-sex{
+	padding: 20px;
+}
+
+#scroll-1, #scroll-2 {
+	height: 200px;
+	overflow-y: scroll;
+}
+
+h5{
+	padding-top: 3px;
+	color: #4a4747;
+	font-weight: bold;
+	font-size: 14px;
+	font-family: 'Arial', sans-serif !important;
+}
+
+footer {
+  background: #0f3f4d;
+  text-align: center;
+  color: white;
+  padding: 35px;
+  word-spacing: 2px;
+}
+
+.footer {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+
+@media only screen and (min-width: 768px){
+
+	.heading{
+		padding-top: 50px;
+		padding-left: 60px;
+	}
+
+	.inner-line-chart{
+		height: 50vh; 
+	}
+	
+	.column-1, .column-2, .column-3{
+		width: calc(34% - 20px);
+		margin: 10px auto;
+	}
+
+	.line-chart-title{
+		font-size: 22px !important;
+	}
+
+	h5{
+		font-size: 18px !important;
+	}
+
+	.row{
+		margin-top: 15px;
+	}
+
+}
